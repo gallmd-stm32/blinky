@@ -1,0 +1,6 @@
+main.cpp:53:5:int main()	16	static
+main.cpp:107:6:void Delay(uint32_t)	16	static
+reg_access.h:33:17:static void reg_access<addr_type, reg_type, address, value>::reg_xor() [with addr_type = long unsigned int; reg_type = long unsigned int; addr_type address = 1073875988ul; reg_type value = 4096ul]	4	static
+reg_access.h:33:17:static void reg_access<addr_type, reg_type, address, value>::reg_xor() [with addr_type = long unsigned int; reg_type = long unsigned int; addr_type address = 1073875988ul; reg_type value = 8192ul]	4	static
+reg_access.h:33:17:static void reg_access<addr_type, reg_type, address, value>::reg_xor() [with addr_type = long unsigned int; reg_type = long unsigned int; addr_type address = 1073875988ul; reg_type value = 16384ul]	4	static
+reg_access.h:33:17:static void reg_access<addr_type, reg_type, address, value>::reg_xor() [with addr_type = long unsigned int; reg_type = long unsigned int; addr_type address = 1073875988ul; reg_type value = 32768ul]	4	static

@@ -1,0 +1,1 @@
+gpio.cpp:11:1:GPIO::GPIO(Register32Bit, PinType, GpioModeType, AlternateFunctionType)	24	static

@@ -9,14 +9,15 @@
 #define GPIO_H_
 
 #include "reg_access.h"
+#include "reg_access_dynamic.h"
 #include "registers.h"
 
 
 typedef uint8_t AlternateFunctionType;
 typedef uint8_t PinType;
-typedef uint8_t GpioModeType;
+typedef uint32_t GpioModeType;
 typedef uint8_t OutputType;
-typedef uint8_t OutputSpeed;
+typedef uint8_t OutputSpeedType;
 typedef uint8_t PullUpPullDownType;
 typedef uint32_t GPIOxRegisterType;
 
@@ -81,10 +82,10 @@ namespace PINS {
 
 	namespace GpioModes{
 
-	constexpr GpioModeType Input = 0x00U;
-	constexpr GpioModeType Output = 0x01U;
-	constexpr GpioModeType AlternateFunction = 0x02U;
-	constexpr GpioModeType AnalogMode = 0x03U;
+	constexpr GpioModeType Input = 0x00000000U;
+	constexpr GpioModeType Output = 0x00000001U;
+	constexpr GpioModeType AlternateFunction = 0x00000002U;
+	constexpr GpioModeType AnalogMode = 0x00000003U;
 
 }
 
@@ -97,10 +98,10 @@ namespace OutputTypes{
 
 namespace OutputSpeed{
 
-	constexpr OutputSpeed LowSpeed = 0x00U;
-	constexpr OutputSpeed MediumSpeed = 0x01U;
-	constexpr OutputSpeed HighSpeed = 0x02U;
-	constexpr OutputSpeed VeryHighSpeeed = 0x03U;
+	constexpr OutputSpeedType LowSpeed = 0x00U;
+	constexpr OutputSpeedType MediumSpeed = 0x01U;
+	constexpr OutputSpeedType HighSpeed = 0x02U;
+	constexpr OutputSpeedType VeryHighSpeeed = 0x03U;
 
 }
 
@@ -111,31 +112,71 @@ namespace PullUpPullDown {
 	constexpr PullUpPullDownType PullDown = 0x02U;
 
 }
+
+namespace RegisterOffsets{
+
+	constexpr GPIOxRegisterType ModeRegisterOffset = 0x00U;
+	constexpr GPIOxRegisterType OutputTypeRegisterOffset = 0x04U;
+	constexpr GPIOxRegisterType OutputSpeedRegisterOffset = 0x08U;
+	constexpr GPIOxRegisterType PullUpPullDownRegisterOffset = 0x0CU;
+	constexpr GPIOxRegisterType InputDataRegisterOffset = 0x10U;
+	constexpr GPIOxRegisterType OutputDataRegisterOffset = 0x14U;
+	constexpr GPIOxRegisterType BitSetResetLowRegisterOffset = 0x18U;
+	constexpr GPIOxRegisterType BitSetResetHighRegisterOffset = 0x1AU;
+	constexpr GPIOxRegisterType LockRegisterOffset = 0x1CU;
+	constexpr GPIOxRegisterType AlternateFunctionLowRegisterOffset = 0x20U;
+	constexpr GPIOxRegisterType AlternateFunctionHighRegisterOffset = 0x24U;
+
+}
+
+template<
+	const GPIOxRegisterType gpio_bank,
+	const PinType pinNumber,
+	const GpioModeType mode,
+	const OutputType outputType,
+	const OutputSpeedType outputSpeed,
+	const AlternateFunctionType alternateFunction>
 class GPIO{
 
 
 public:
 
-	GPIO(GPIOxRegisterType gpioBank,
-			PinType pin_number,
-			GpioModeType mode,
-			OutputType outputType,
-			OutputSpeed outputSpeed,
-			AlternateFunctionType alernateFunction);
+	GPIO(){
+
+		//set mode register
+		uint32_t modeMask = 0x00U;
+		modeMask = mode << ((pinNumber-1) * 2);
+
+		dynamic_access<GPIOxRegisterType, uint32_t>::reg_or(GPIOxModeRegister, modeMask);
+
+		//set ouput type register
+		reg_access<GPIOxRegisterType, OutputType, GPIOxOutputTypeRegister, (outputType << (pinNumber-1))>::reg_or();
+
+		//set output speed register
+
+		//set pull-up/pull-down register
+
+		//Set Alternate Function Register
+
+
+	}
 
 private:
 
-	GPIOxRegisterType GPIOxBaseRegister;
-	GPIOxRegisterType GPIOxModeRegister;
-	GPIOxRegisterType GPIOxOutputTypeRegister;
-	GPIOxRegisterType GPIOxOuputSpeedRegister;
-	GPIOxRegisterType GPIOxPullUpPullDownRegister;
-	GPIOxRegisterType GPIOxInputDataRegister;
-	GPIOxRegisterType GPIOxOutputDataRegister;
-	GPIOxRegisterType GPIOxBitSetResetRegister;
-	GPIOxRegisterType GPIOxLockRegister;
-	GPIOxRegisterType GPIOxAlternateFunctionHighRegister;
-	GPIOxRegisterType GPIOxAlternateFunctionLowRegister;
+	static constexpr GPIOxRegisterType GPIOxBaseRegister = gpio_bank;
+	static constexpr GPIOxRegisterType GPIOxModeRegister = gpio_bank + RegisterOffsets::ModeRegisterOffset;
+	static constexpr GPIOxRegisterType GPIOxOutputTypeRegister = gpio_bank + RegisterOffsets::OutputTypeRegisterOffset;
+	static constexpr GPIOxRegisterType GPIOxOuputSpeedRegister = gpio_bank + RegisterOffsets::OutputSpeedRegisterOffset;
+	static constexpr GPIOxRegisterType GPIOxPullUpPullDownRegister = gpio_bank + RegisterOffsets::PullUpPullDownRegisterOffset;
+	static constexpr GPIOxRegisterType GPIOxInputDataRegister = gpio_bank + RegisterOffsets::InputDataRegisterOffset;
+	static constexpr GPIOxRegisterType GPIOxOutputDataRegister = gpio_bank + RegisterOffsets::OutputDataRegisterOffset;
+	static constexpr GPIOxRegisterType GPIOxBitSetResetLowRegister = gpio_bank + RegisterOffsets::BitSetResetLowRegisterOffset;
+	static constexpr GPIOxRegisterType GPIOxBitSetResetHighRegister = gpio_bank + RegisterOffsets::BitSetResetHighRegisterOffset;
+	static constexpr GPIOxRegisterType GPIOxLockRegister = gpio_bank + RegisterOffsets::LockRegisterOffset;
+	static constexpr GPIOxRegisterType GPIOxAlternateFunctionHighRegister = gpio_bank + RegisterOffsets::AlternateFunctionHighRegisterOffset;
+	static constexpr GPIOxRegisterType GPIOxAlternateFunctionLowRegister = gpio_bank + RegisterOffsets::AlternateFunctionLowRegisterOffset;
+
+
 
 
 };

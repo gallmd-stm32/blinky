@@ -31,6 +31,7 @@ SOFTWARE.
 #include "stm32f4xx.h"
 #include "reg_access.h"
 #include "registers.h"
+#include "gpio.h"
 
 /* Private macro */
 /* Private variables */
@@ -62,6 +63,8 @@ int main(void)
 
 	  /* GPIOD Periph clock enable */
 	  RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOD, ENABLE);
+	  RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOB, ENABLE);
+
 
 	  /* Configure PD12, PD13, PD14 and PD15 in output pushpull mode */
 	  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_12 | GPIO_Pin_13| GPIO_Pin_14| GPIO_Pin_15;
@@ -70,6 +73,16 @@ int main(void)
 	  GPIO_InitStructure.GPIO_Speed = GPIO_Speed_100MHz;
 	  GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
 	  GPIO_Init(GPIOD, &GPIO_InitStructure);
+
+	  const GPIO<GPIOxBaseRegisters::GPIO_B,
+	  	  PINS::PIN0,
+		  GpioModes::Output,
+		  OutputTypes::PushPull,
+		  OutputSpeed::MediumSpeed,
+		  AlternateFunction::AF0>testGPIO;
+
+//	reg_access<uint32_t, uint32_t, stm32fxx::registers::GPIOD_MODER, stm32fxx::bits::BIT1>::reg_or();
+
   int i = 0;
 
   /**
@@ -93,7 +106,6 @@ int main(void)
 	  reg_access<uint32_t, uint32_t, stm32fxx::registers::GPIOD_ODR, stm32fxx::bits::BIT15>::reg_xor();
 
 	  Delay(0xFFFFFF);
-	  USART1_BASE;
 	i++;
 
   }

@@ -6,19 +6,25 @@
  */
 
 
-#include "gpio.h"
-
-GPIO::GPIO(Register32Bit gpioBank, PinType pin_number, GpioModeType mode, AlternateFunctionType af){
-
-	//set GPIOx_MODER
-
-	//set GPIOx_OTYPER
-
-	//set GPIOx_OSPEEDR
-
-	//set GPIOx_PUPDR
-
-	//set GPIOx_AFLR and GPIOx_AFHR
-
-}
+//#include "gpio.h"
+//
+//	GPIO::GPIO(GPIOxRegisterType gpioBank,
+//			PinType pin_number,
+//			GpioModeType mode,
+//			OutputType outputType,
+//			OutputSpeedType outputSpeed,
+//			AlternateFunctionType alernateFunction){
+//	//set GPIOx_MODER
+//	GPIO::GPIOxModeRegister = gpioBank + RegisterOffsets::ModeRegisterOffset;
+//	reg_access<GPIOxRegisterType, GPIOxRegisterType, GPIOxModeRegister, pin_number>::reg_set();
+//
+//	//set GPIOx_OTYPER
+//
+//	//set GPIOx_OSPEEDR
+//
+//	//set GPIOx_PUPDR
+//
+//	//set GPIOx_AFLR and GPIOx_AFHR
+//
+//}
 

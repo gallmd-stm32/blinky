@@ -63,23 +63,106 @@ int main(void)
 
 	  /* GPIOD Periph clock enable */
 	  RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOD, ENABLE);
-	  RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOB, ENABLE);
+	  RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOE, ENABLE);
 
 
 	  /* Configure PD12, PD13, PD14 and PD15 in output pushpull mode */
-	  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_12 | GPIO_Pin_13| GPIO_Pin_14| GPIO_Pin_15;
-	  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
-	  GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
-	  GPIO_InitStructure.GPIO_Speed = GPIO_Speed_100MHz;
-	  GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
-	  GPIO_Init(GPIOD, &GPIO_InitStructure);
+//	  GPIO_InitStructure.GPIO_Pin =  GPIO_Pin_13| GPIO_Pin_14| GPIO_Pin_15;
+//	  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
+//	  GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
+//	  GPIO_InitStructure.GPIO_Speed = GPIO_Speed_100MHz;
+//	  GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
+//	  GPIO_Init(GPIOD, &GPIO_InitStructure);
 
-	  const GPIO<GPIOxBaseRegisters::GPIO_B,
+	  const GPIO<GPIOxBaseRegisters::GPIO_E,
 	  	  PINS::PIN0,
 		  GpioModes::Output,
 		  OutputTypes::PushPull,
 		  OutputSpeed::MediumSpeed,
-		  AlternateFunction::AF0>testGPIO;
+		  PullUpPullDown::NoPullUpPullDown,
+		  AlternateFunction::AF15>testGPIO;
+	  const GPIO<GPIOxBaseRegisters::GPIO_E,
+	  	  PINS::PIN2,
+		  GpioModes::Output,
+		  OutputTypes::PushPull,
+		  OutputSpeed::MediumSpeed,
+		  PullUpPullDown::NoPullUpPullDown,
+		  AlternateFunction::AF15>testGPIO1;
+	  const GPIO<GPIOxBaseRegisters::GPIO_E,
+	  	  PINS::PIN4,
+		  GpioModes::Output,
+		  OutputTypes::PushPull,
+		  OutputSpeed::MediumSpeed,
+		  PullUpPullDown::NoPullUpPullDown,
+		  AlternateFunction::AF15>testGPIO2;
+	  const GPIO<GPIOxBaseRegisters::GPIO_E,
+	  	  PINS::PIN6,
+		  GpioModes::Output,
+		  OutputTypes::PushPull,
+		  OutputSpeed::MediumSpeed,
+		  PullUpPullDown::NoPullUpPullDown,
+		  AlternateFunction::AF15>testGPIO3;
+	  const GPIO<GPIOxBaseRegisters::GPIO_E,
+	  	  PINS::PIN8,
+		  GpioModes::Output,
+		  OutputTypes::PushPull,
+		  OutputSpeed::MediumSpeed,
+		  PullUpPullDown::NoPullUpPullDown,
+		  AlternateFunction::AF15>testGPIO4;
+	  const GPIO<GPIOxBaseRegisters::GPIO_E,
+	  	  PINS::PIN10,
+		  GpioModes::Output,
+		  OutputTypes::PushPull,
+		  OutputSpeed::MediumSpeed,
+		  PullUpPullDown::NoPullUpPullDown,
+		  AlternateFunction::AF15>testGPIO5;
+	  const GPIO<GPIOxBaseRegisters::GPIO_E,
+	  	  PINS::PIN12,
+		  GpioModes::Output,
+		  OutputTypes::PushPull,
+		  OutputSpeed::MediumSpeed,
+		  PullUpPullDown::NoPullUpPullDown,
+		  AlternateFunction::AF15>testGPIO6;
+	  const GPIO<GPIOxBaseRegisters::GPIO_E,
+	  	  PINS::PIN14,
+		  GpioModes::Output,
+		  OutputTypes::PushPull,
+		  OutputSpeed::MediumSpeed,
+		  PullUpPullDown::NoPullUpPullDown,
+		  AlternateFunction::AF15>testGPIO7;
+
+	  const GPIO<GPIOxBaseRegisters::GPIO_D,
+	  	  PINS::PIN12,
+		  GpioModes::Output,
+		  OutputTypes::PushPull,
+		  OutputSpeed::MediumSpeed,
+		  PullUpPullDown::NoPullUpPullDown,
+		  AlternateFunction::AF0>greenLED;
+
+	  const GPIO<GPIOxBaseRegisters::GPIO_D,
+	  	  PINS::PIN13,
+		  GpioModes::Output,
+		  OutputTypes::PushPull,
+		  OutputSpeed::MediumSpeed,
+		  PullUpPullDown::NoPullUpPullDown,
+		  AlternateFunction::AF0>orangeLED;
+
+	  const GPIO<GPIOxBaseRegisters::GPIO_D,
+	  	  PINS::PIN14,
+		  GpioModes::Output,
+		  OutputTypes::PushPull,
+		  OutputSpeed::MediumSpeed,
+		  PullUpPullDown::NoPullUpPullDown,
+		  AlternateFunction::AF0>redLED;
+
+	  const GPIO<GPIOxBaseRegisters::GPIO_D,
+	  	  PINS::PIN15,
+		  GpioModes::Output,
+		  OutputTypes::PushPull,
+		  OutputSpeed::MediumSpeed,
+		  PullUpPullDown::NoPullUpPullDown,
+		  AlternateFunction::AF0>blueLED;
+
 
 //	reg_access<uint32_t, uint32_t, stm32fxx::registers::GPIOD_MODER, stm32fxx::bits::BIT1>::reg_or();
 
@@ -100,10 +183,14 @@ int main(void)
   /* Infinite loop */
   while (1)
   {
-	  reg_access<uint32_t, uint32_t, stm32fxx::registers::GPIOD_ODR, stm32fxx::bits::BIT12>::reg_xor();
-	  reg_access<uint32_t, uint32_t, stm32fxx::registers::GPIOD_ODR, stm32fxx::bits::BIT13>::reg_xor();
-	  reg_access<uint32_t, uint32_t, stm32fxx::registers::GPIOD_ODR, stm32fxx::bits::BIT14>::reg_xor();
-	  reg_access<uint32_t, uint32_t, stm32fxx::registers::GPIOD_ODR, stm32fxx::bits::BIT15>::reg_xor();
+//	  reg_access<uint32_t, uint32_t, stm32fxx::registers::GPIOD_ODR, stm32fxx::bits::BIT12>::reg_xor();
+	  greenLED.toggle();
+	  orangeLED.toggle();
+	  redLED.toggle();
+	  blueLED.toggle();
+//	  reg_access<uint32_t, uint32_t, stm32fxx::registers::GPIOD_ODR, stm32fxx::bits::BIT13>::reg_xor();
+//	  reg_access<uint32_t, uint32_t, stm32fxx::registers::GPIOD_ODR, stm32fxx::bits::BIT14>::reg_xor();
+//	  reg_access<uint32_t, uint32_t, stm32fxx::registers::GPIOD_ODR, stm32fxx::bits::BIT15>::reg_xor();
 
 	  Delay(0xFFFFFF);
 	i++;
